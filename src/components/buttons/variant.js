@@ -1,7 +1,5 @@
 import React from 'react';
 
-import BtnStyled from './btnStyled';
-
 function Variant(props) {
 
   const handleClick = () => {
@@ -12,7 +10,7 @@ function Variant(props) {
   }
 
   return (
-    <BtnStyled onClick={handleClick}>{props.answer}</BtnStyled>
+    <button className="quiz__btn" onClick={handleClick}>{props.answer}</button>
   );
 }
 

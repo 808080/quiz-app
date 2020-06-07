@@ -3,7 +3,7 @@ import React from 'react';
 function RestartBtn(props) {
 
   const restart = () => {
-    props.onSlideChange(0);
+    props.onSlideChange(1);
     props.onCorrectAnswer(0);
   }
 

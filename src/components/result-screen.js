@@ -1,12 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  VKShareButton,
+  VKIcon
+} from "react-share";
 
-import RestartBtn from './buttons/restartBtn';
+import RestartBtn from 'components/buttons/restartBtn';
 
-import Again from '../assets/refresh-arrow.svg';
-
-import results from '../data/results.json';
-import { NUMBER_OF_QUESTIONS } from '../App';
+import results from 'data/results.json';
+import { NUMBER_OF_QUESTIONS } from 'App';
 
 function Result(props) {
 
@@ -31,87 +36,41 @@ function Result(props) {
   }
 
   return (
-    <ResultStyled theme={res}>
+    <div className="quiz__result">
       <p className="quiz__total">{props.correctAnswers} из {NUMBER_OF_QUESTIONS} правильных ответов</p>
       <h3 className="quiz__res-text">{res.text}</h3>
+
+      <div className="quiz__share">
+        <FacebookShareButton
+          url="https://808080.github.io/quiz-app-build/"
+          quote={res.text}>
+          <FacebookIcon size={50} bgStyle={{fill: 'white'}} iconFillColor="#4267B2" />
+          <span>Поделиться</span>
+        </FacebookShareButton>
+        <VKShareButton
+          url="https://808080.github.io/quiz-app-build/"
+          image={res.image ? require('assets/' + res.image) : false}
+          title={res.text}>
+          <VKIcon size={50} bgStyle={{fill: 'white'}} iconFillColor="#5B88BD" />
+          <span>Поделиться</span>
+        </VKShareButton>
+        <TwitterShareButton
+          url="https://808080.github.io/quiz-app-build/"
+          title={res.text}>
+          <TwitterIcon size={50} bgStyle={{fill: 'white'}} iconFillColor="#1DA1F2" />
+          <span>Твитнуть</span>
+        </TwitterShareButton>
+      </div>
 
       <RestartBtn
         onSlideChange={props.onSlideChange}
         onCorrectAnswer={props.onCorrectAnswer}
       />
-    </ResultStyled>
+      {res.image ?
+        <img className="quiz__img" src={require('assets/' + res.image)} alt="" />
+        : false}
+    </div>
   );
 }
-
-const ResultStyled = styled.div`
-  max-width: 500px;
-  margin: 0 auto;
-
-  &::before {
-    content: '';
-    background: url(${props => props.theme.image ? require('../assets/' + props.theme.image) : false}) no-repeat center right;
-    background-size: 100%;
-    height: 100%;
-    width: 70%;
-    max-width: 530px;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
-
-  .quiz {
-    &__total {
-      margin: 0;
-    }
-
-    &__res-text {
-      margin: 15px 0 30px;
-      font-weight: 900;
-      font-size: 36px;
-      max-width: 390px;
-      margin: 60px 0 40px;
-      position: relative;
-      z-index: 2;
-    }
-
-    &__restart {
-      font-weight: bold;
-      font-size: 20px;
-      cursor: pointer;
-      position: absolute;
-      bottom: 25px;
-      z-index: 2;
-
-      &::after {
-        content: url(${Again});
-        margin-left: 10px;
-        vertical-align: middle;
-        height: 20px;
-        display: inline-block;
-      }
-
-      &:hover {
-        &::after {
-          transform: rotate(360deg);
-          transition: .4s;
-        }
-      }
-    }
-  }
-
-  @media (max-width: 639px) {
-    .quiz {
-      &__res-text {
-        font-size: 28px;
-      }
-    }
-  }
-
-  @media (max-width: 424px) {
-    &::before {
-      height: 70%;
-    }
-  }
-`;
 
 export default Result;
